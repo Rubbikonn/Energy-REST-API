@@ -9,7 +9,10 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [ 
     UserModule, 
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ 
+      isGlobal: true,
+      envFilePath: '.env' 
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -19,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
+        secret: configService.get('PRIVATE_KEY'),
         synchronize: true,
         entities: [__dirname + '/**/*.entity{.js, .ts}']
       }),

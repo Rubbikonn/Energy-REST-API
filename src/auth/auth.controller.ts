@@ -6,12 +6,29 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-    @UsePipes(new ValidationPipe())
-    create(@Body() createUserDto: CreateUserDto) {
+  // @Post('/login')
+  // login(@Body() createUserDto: CreateUserDto) {
+  //   return this.authService.login(createUserDto)
+  // }
 
-    return this.authService.create(createUserDto);
+  @Post('/registration') 
+  registration(@Body() createUserDto: CreateUserDto) {
+    console.log('Зашли в контроллер')
+    return this.authService.registration(createUserDto)
   }
+}
+
+
+
+
+
+
+
+  //   @UsePipes(new ValidationPipe())
+  //   create(@Body() createUserDto: CreateUserDto) {
+
+  //   return this.authService.create(createUserDto);
+  // }
 
   
 
@@ -34,4 +51,3 @@ export class AuthController {
   // remove(@Param('id') id: string) {
   //   return this.authService.remove(+id);
   // }
-}

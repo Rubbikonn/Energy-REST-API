@@ -7,25 +7,25 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>
-    ) {}
+  // constructor(
+  //   @InjectRepository(User) private readonly userRepository: Repository<User>
+  //   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    const existedUser = await this.userRepository.findOne({
-      where: {
-        login: createUserDto.login
-      }
-    })
+  // async create(createUserDto: CreateUserDto) {
+  //   const existedUser = await this.userRepository.findOne({
+  //     where: {
+  //       login: createUserDto.login
+  //     }
+  //   })
 
-    if (existedUser) throw new BadRequestException('Данный логин уже существует');
+  //   if (existedUser) throw new BadRequestException('Данный логин уже существует');
 
-    const user = await this.userRepository.save({
-      login: createUserDto.login,
-      password: createUserDto.password
-    })
-    return 'This action adds a new user';
-  }
+  //   const user = await this.userRepository.save({
+  //     login: createUserDto.login,
+  //     password: createUserDto.password
+  //   })
+  //   return 'This action adds a new user';
+  // }
 
   // findAll() {
   //   return `This action returns all user`;
