@@ -6,18 +6,17 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // @Post('/login')
-  // login(@Body() createUserDto: CreateUserDto) {
-  //   return this.authService.login(createUserDto)
-  // }
-
   @Post('/registration') 
-  registration(@Body() createUserDto: CreateUserDto) {
-    console.log('Зашли в контроллер')
-    return this.authService.registration(createUserDto)
-  }
-}
+  async registration(@Body() createUserDto: CreateUserDto) {
+    return await this.authService.registration(createUserDto)
+  };
+};
 
+// @Post('/login')
+// login(@Body() createUserDto: CreateUserDto) {
+//   const user = this.validateUser(CreateUserDto);
+//   return this.authService.generateToken(user);
+// }
 
 
 
