@@ -1,4 +1,9 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { 
+  Injectable, 
+  HttpException, 
+  HttpStatus, 
+  UnauthorizedException 
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
@@ -10,18 +15,30 @@ import * as bcrypt from 'bcryptjs';
 export class AuthService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private jwtService: JwtService
-    ) {}
+    private jwtService: JwtService) 
+    {}
 
-  // async login(userDto: CreateUserDto) {
-  //   const user = this.validateUser(userDto)
-  //   return this.generateToken(user);
-  // };
+  async login(userDto: CreateUserDto) {
+    const user = await this.validateUser(userDto);
+    return this.generateToken(user);
+  };
+
+  private async validateUser(createUserDto: CreateUserDto) {
+    const user = await this.findExistedUser(createUserDto);
+    const passwordEquals = await bcrypt.compare(createUserDto.password.trim(), user.password.trim());
+
+    if(user && passwordEquals) {
+      return user;
+    };
+
+    throw new UnauthorizedException( {message: 'Некорректный емейл или пароль, проверьте данные' } )
+  
+  };
 
   async registration(createUserDto: CreateUserDto) {
     const existedUser = await this.userRepository.findOne({
       where: {
-        login: createUserDto.login
+        login: createUserDto.login.trim()
       },
     });
 
@@ -47,8 +64,17 @@ export class AuthService {
     };
   };
 
-  // private async validateUser(createUserDto: CreateUserDto) {
-  //   const user = await this.userService.getUserByLogin(createUserDto.login);
-  //   const passwordEquals = await bcrypt.compare(createUserDto.password)
-  // }
-}
+  private async findExistedUser(createUserDto: CreateUserDto) {
+    const user = await this.userRepository.findOne({
+      where: {
+        login: createUserDto.login.trim()
+      },
+    });
+    
+    if (!user) {
+      throw new UnauthorizedException({message: 'Данный пользователь не найден, проверьте введённые данные или зарегистрируйтесь' });
+    };
+
+    return user;
+  };
+};
