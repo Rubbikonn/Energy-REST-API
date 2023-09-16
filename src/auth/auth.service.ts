@@ -25,8 +25,8 @@ export class AuthService {
 
   private async validateUser(createUserDto: CreateUserDto) {
     const user = await this.findExistedUser(createUserDto);
-    const passwordEquals = await bcrypt.compare(createUserDto.password.trim(), user.password.trim());
-
+    const passwordEquals = await bcrypt.compare(String(createUserDto.password), user.password);
+  
     if(user && passwordEquals) {
       return user;
     };
@@ -46,7 +46,7 @@ export class AuthService {
        throw new HttpException('Данный логин уже существует', HttpStatus.BAD_REQUEST);
     };
 
-    const hashPassword = await bcrypt.hash(createUserDto.password, 7)
+    const hashPassword = await bcrypt.hash(String(createUserDto.password), 7)
     const user = await this.userRepository.save({
       ...createUserDto,
       password: hashPassword

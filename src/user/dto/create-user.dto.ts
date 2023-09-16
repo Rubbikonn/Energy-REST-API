@@ -16,7 +16,6 @@ export class CreateUserDto {
 
     @MinLength(4, { message: 'Пароль должен быть минимум 4 символа'})
     @MaxLength(16, { message: 'Пароль должен быть максимум 16 символов'})
-    @IsString()
     @IsNotEmpty()
-    password: string;
+    password: string | number;
 }
