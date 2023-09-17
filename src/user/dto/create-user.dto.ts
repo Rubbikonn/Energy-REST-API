@@ -2,8 +2,10 @@ import {
     IsString, 
     IsNotEmpty, 
     MinLength, 
-    MaxLength 
-} from 'class-validator'
+    MaxLength,
+    Min,
+    Max,
+} from 'class-validator';
 
 export class CreateUserDto {
     id: number;
@@ -14,8 +16,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     login: string;
 
-    @MinLength(4, { message: 'Пароль должен быть минимум 4 символа'})
-    @MaxLength(16, { message: 'Пароль должен быть максимум 16 символов'})
     @IsNotEmpty()
-    password: string | number;
-}
+    @IsString()
+    @MinLength(4, { message: 'Пароль должен быть минимум 4 символа и содержать хоть одну букву'})
+    @MaxLength(16, { message: 'Пароль должен быть максимум 16 и содержать хоть одну букву'})
+    password: string;
+};
