@@ -1,30 +1,34 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
+import { UserEvaluativePointsDto } from './dto/user-evaluative-points.dto';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  // constructor(
-  //   @InjectRepository(User) private readonly userRepository: Repository<User>
-  //   ) {}
+  constructor(
+    @InjectRepository(UserEvaluativePoints) private readonly userEvaluativeRepository: Repository<UserEvaluativePoints>
+    ) {}
 
-  // async create(createUserDto: CreateUserDto) {
-  //   const existedUser = await this.userRepository.findOne({
-  //     where: {
-  //       login: createUserDto.login
-  //     }
-  //   })
+  async createNewEvaluativePoint(userEvaluativePointsDto: UserEvaluativePointsDto, 
+    id: number) {
+      const newPoint = {
+        user: {
+          id
+        },
+        pointId: userEvaluativePointsDto.id,
+        pointTitle: userEvaluativePointsDto.title,
+        pointValue: userEvaluativePointsDto.value
+      }
 
-  //   if (existedUser) throw new BadRequestException('Данный логин уже существует');
+      return await this.userEvaluativeRepository.save(newPoint);
+    // const findCreatedPoint = await this.userEvaluativeRepository.findBy({
+    //   user: { id },
+    //   title: userEvaluativePointsDto.title
+    // });
 
-  //   const user = await this.userRepository.save({
-  //     login: createUserDto.login,
-  //     password: createUserDto.password
-  //   })
-  //   return 'This action adds a new user';
-  // }
+    // if (findCreatedPoint)
+  }
 
   // findAll() {
   //   return `This action returns all user`;

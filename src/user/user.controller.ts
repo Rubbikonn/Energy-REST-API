@@ -1,26 +1,28 @@
-// import { 
-//   Controller, 
-//   Get, 
-//   Post, 
-//   Body, 
-//   Patch, 
-//   Param, 
-//   Delete, 
-//   UsePipes, 
-//   ValidationPipe
-// } from '@nestjs/common';
-// import { UserService } from './user.service';
-// import { CreateUserDto } from './dto/create-user.dto';
+import { 
+  Controller, 
+  Get, 
+  Post, 
+  Body, 
+  Patch, 
+  Param, 
+  Delete, 
+  UsePipes, 
+  ValidationPipe
+} from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
+import { UserEvaluativePointsDto } from './dto/user-evaluative-points.dto';
 
-// @Controller('user')
-// export class UserController {
-//   constructor(private readonly userService: UserService) {}
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-//   @Post()
-//   @UsePipes(new ValidationPipe())
-//   create(@Body() createUserDto: CreateUserDto) {
-//     return this.userService.create(createUserDto);
-//   }
+  @Post('/create-new-evaluative-point/:id')
+  // @UsePipes(new ValidationPipe())
+  createEvaluativePoint(@Body() userEvaluativePointsDto: UserEvaluativePointsDto, 
+  @Param('id') id: number) {
+    return this.userService.createNewEvaluativePoint(userEvaluativePointsDto, id)
+  }
 
   // @Get()
   // findAll() {
@@ -42,3 +44,4 @@
   //   return this.userService.remove(+id);
   // }
 
+}

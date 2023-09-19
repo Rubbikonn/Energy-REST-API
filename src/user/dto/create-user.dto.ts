@@ -3,8 +3,6 @@ import {
     IsNotEmpty, 
     MinLength, 
     MaxLength,
-    Min,
-    Max,
 } from 'class-validator';
 
 export class CreateUserDto {
