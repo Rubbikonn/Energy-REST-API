@@ -2,8 +2,7 @@ import {
     Column, 
     Entity, 
     JoinColumn, 
-    ManyToOne, 
-    OneToMany, 
+    ManyToOne,  
     PrimaryGeneratedColumn 
 } from "typeorm";
 import { User } from "./user.entity";
@@ -11,15 +10,15 @@ import { User } from "./user.entity";
 @Entity()
 export class UserEvaluativePoints {
     @PrimaryGeneratedColumn({ name: 'point_id' })
-    id: number;
+    point_id: number;
 
     @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({ name: 'user_id'})
-    user: User
+    user_id: User
 
     @Column({ name: 'point_title' })
-    title: string;
+    point_title: string;
 
     @Column({ name: 'point_value' })
-    value: string;
+    point_value: number;
 }

@@ -12,13 +12,23 @@ export class UserService {
 
   async createNewEvaluativePoint(userEvaluativePointsDto: UserEvaluativePointsDto, 
     id: number) {
+
+    const existedPoint = await this.userEvaluativeRepository.findOneBy({
+      user_id: { id },
+      point_title: userEvaluativePointsDto.point_title
+    });
+
+    if (existedPoint) {
+      throw new BadRequestException('Этот показатель у данного пользователя уже был введён ранее')
+    }
+
       const newPoint = {
-        user: {
+        point_id: userEvaluativePointsDto.point_id,
+        user_id: {
           id
         },
-        pointId: userEvaluativePointsDto.id,
-        pointTitle: userEvaluativePointsDto.title,
-        pointValue: userEvaluativePointsDto.value
+        point_title: userEvaluativePointsDto.point_title,
+        point_value: userEvaluativePointsDto.point_value
       }
 
       return await this.userEvaluativeRepository.save(newPoint);

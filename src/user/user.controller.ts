@@ -7,7 +7,8 @@ import {
   Param, 
   Delete, 
   UsePipes, 
-  ValidationPipe
+  ValidationPipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
@@ -18,9 +19,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/create-new-evaluative-point/:id')
-  // @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe())
   createEvaluativePoint(@Body() userEvaluativePointsDto: UserEvaluativePointsDto, 
-  @Param('id') id: number) {
+  @Param('id',  new ParseIntPipe()) id: number) {
     return this.userService.createNewEvaluativePoint(userEvaluativePointsDto, id)
   }
 

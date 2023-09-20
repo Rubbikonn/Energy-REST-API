@@ -19,7 +19,7 @@ export class User {
     @Column({ name: 'user_password' })
     password: string;
 
-    @OneToMany(() => UserEvaluativePoints, (userEvaluativePoints) => userEvaluativePoints.user, {
+    @OneToMany(() => UserEvaluativePoints, (userEvaluativePoints) => userEvaluativePoints.user_id, {
         onDelete: 'CASCADE'
     })
     userEvaluativePoints: UserEvaluativePoints[];
