@@ -1,11 +1,7 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { User } from '../entities/user.entity';
-// import { User } from './create-user.dto'
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class UserEvaluativePointsDto {
     point_id: number;
-
-    // user_id: User;
 
     @IsNotEmpty({ message:'Данное поле является обязательным для заполнения' })
     @IsString()

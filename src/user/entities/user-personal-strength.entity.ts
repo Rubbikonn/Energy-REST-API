@@ -1,4 +1,3 @@
-import { User } from "./user.entity";
 import { 
     Column, 
     Entity, 
@@ -6,19 +5,20 @@ import {
     ManyToOne, 
     PrimaryGeneratedColumn 
 } from "typeorm";
+import { User } from "./user.entity";
 
 @Entity()
-export class UserPeronalStrength {
+export class UserPersonalStrength {
     @PrimaryGeneratedColumn({ name: 'strength_id' })
-    id: number;
+    strength_id: number;
 
     @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({ name: 'user_id'})
-    user: User
+    user_id: User
 
     @Column({ name: 'strength_title' })
-    title: string;
+    strength_title: string;
 
     @Column({ name: 'strength_value' })
-    value: string;
+    strength_value: string;
 }

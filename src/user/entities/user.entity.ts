@@ -5,7 +5,7 @@ import {
     PrimaryGeneratedColumn 
 } from "typeorm";
 import { UserEvaluativePoints } from "./user-evaluative-points.entity";
-import { UserPeronalStrength } from "./user-personal-strength.entity";
+import { UserPersonalStrength } from "./user-personal-strength.entity";
 import { UserHealthVision } from "./user-health-vision.entity";
 
 @Entity()
@@ -24,10 +24,10 @@ export class User {
     })
     userEvaluativePoints: UserEvaluativePoints[];
 
-    @OneToMany(() => UserPeronalStrength, (userPeronalStrength) => userPeronalStrength.user, {
+    @OneToMany(() => UserPersonalStrength, (userPeronalStrength) => userPeronalStrength.user_id, {
        onDelete: 'CASCADE'
     })
-    userPersonalStrength: UserPeronalStrength[];
+    userPersonalStrength: UserPersonalStrength[];
 
     @OneToMany(() => UserHealthVision, (userHealthVision) => userHealthVision.user, {
         onDelete: 'CASCADE'
