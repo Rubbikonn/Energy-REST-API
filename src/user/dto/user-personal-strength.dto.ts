@@ -8,5 +8,5 @@ export class UserPersonalStrengthDto {
     strength_title: string;
 
     @IsNotEmpty({ message:'Данное поле является обязательным для заполнения'})
-    strength_value: string | number;
+    strength_value: string;
 }
