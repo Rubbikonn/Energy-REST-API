@@ -11,9 +11,9 @@ import {
   ParseIntPipe
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
 import { UserEvaluativePointsDto } from './dto/user-evaluative-points.dto';
 import { UserPersonalStrengthDto } from './dto/user-personal-strength.dto';
+import { UserHealthVisionDto } from './dto/user-health-vision.dto';
 
 @Controller('user')
 export class UserController {
@@ -22,16 +22,23 @@ export class UserController {
   @Post('/create-new-evaluative-point/:id')
   @UsePipes(new ValidationPipe())
     createEvaluativePoint(@Body() userEvaluativePointsDto: UserEvaluativePointsDto, 
-    @Param('id',  new ParseIntPipe()) id: number) {
+    @Param('id', ParseIntPipe) id: number) {
 
     return this.userService.createNewEvaluativePoint(userEvaluativePointsDto, id)
   };
 
   @Post('/create-new-personal-strength/:id')
-    createPersonalStrength(@Body() userPersonalStrength: UserPersonalStrengthDto,
-    @Param('id', new ParseIntPipe()) id: number) {
+   createPersonalStrength(@Body() userPersonalStrength: UserPersonalStrengthDto,
+    @Param('id', ParseIntPipe) id: number) {
       
     return this.userService.createNewPersonalStrength(userPersonalStrength, id)
+  };
+
+  @Post('/create-new-health-vision/:id')
+    createHealthVision(@Body() userHealthVision: UserHealthVisionDto,
+    @Param('id', ParseIntPipe) id: number) {
+      
+    return this.userService.createHealthVision(userHealthVision, id)
   };
 
 

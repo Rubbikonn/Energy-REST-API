@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
 import { UserEvaluativePointsDto } from './dto/user-evaluative-points.dto';
@@ -6,25 +6,28 @@ import { Repository } from 'typeorm';
 import { UserPersonalStrengthDto } from './dto/user-personal-strength.dto';
 import { UserPersonalStrength } from './entities/user-personal-strength.entity';
 import { User } from './entities/user.entity';
+import { UserHealthVisionDto } from './dto/user-health-vision.dto';
+import { UserHealthVision } from './entities/user-health-vision.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEvaluativePoints) private readonly userEvaluativeRepository: Repository<UserEvaluativePoints>,
     @InjectRepository(UserPersonalStrength) private readonly userPersonalStrengthRepository: Repository<UserPersonalStrength>,
+    @InjectRepository(UserHealthVision) private readonly userHealthVisionRepository: Repository<UserHealthVision>,
     @InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
   async createNewEvaluativePoint(userEvaluativePointsDto: UserEvaluativePointsDto, 
-    id: number) {
+  id: number) {
 
-    const checkUser = this.checkExistedUser(id);
+    await this.checkExistedUser(id);
 
     const existedPoint = await this.userEvaluativeRepository.findOneBy({
       user_id: { id },
       point_title: userEvaluativePointsDto.point_title
     });
 
-    if (existedPoint && checkUser) {
+    if (existedPoint) {
       throw new BadRequestException('Этот показатель у данного пользователя уже был введён ранее')
     };
 
@@ -40,10 +43,13 @@ export class UserService {
       return await this.userEvaluativeRepository.save(newPoint);
     }
 
-  async createNewPersonalStrength(userPersonalStrengthDto: UserPersonalStrengthDto, id: number) {
+  async createNewPersonalStrength(userPersonalStrength: UserPersonalStrengthDto, id: number) {
+
+    await this.checkExistedUser(id);
+    
     const existedStrength = await this.userPersonalStrengthRepository.findOneBy({
       user_id: { id },
-      strength_title: userPersonalStrengthDto.strength_title
+      strength_title: userPersonalStrength.strength_title
     })
 
     if (existedStrength) {
@@ -51,29 +57,59 @@ export class UserService {
     };
 
     const newStrength = {
-      strength_id: userPersonalStrengthDto.strength_id,
+      strength_id: userPersonalStrength.strength_id,
       user_id: {
         id
       },
-      strength_title: userPersonalStrengthDto.strength_title,
-      strength_value: userPersonalStrengthDto.strength_value
+      strength_title: userPersonalStrength.strength_title,
+      strength_value: userPersonalStrength.strength_value
     };
 
     return await this.userPersonalStrengthRepository.save(newStrength);
   };
 
-  async checkExistedUser( user_id: number ) {
+  async createHealthVision(userHealthVision: UserHealthVisionDto, id: number) {
+
+    await this.checkExistedUser(id);
+    
+    const existedVision = await this.userHealthVisionRepository.findOneBy({
+      user_id: { id },
+      vision_title: userHealthVision.vision_title
+    })
+
+    if (existedVision) {
+      throw new BadRequestException('Этот показатель у данного пользователя уже был введён ранее')
+    };
+
+    const newVision = {
+      vision_id: userHealthVision.vision_id,
+      user_id: {
+        id
+      },
+      vision_title: userHealthVision.vision_title,
+      vision_value: userHealthVision.vision_value
+    };
+
+    return await this.userHealthVisionRepository.save(newVision);
+};
+
+  async checkExistedUser( userId: number ) {
     const existedUser = await this.userRepository.findOne({
       where: {
-        id: user_id
+        id: userId
       }
-    });
+    }); 
 
     if (!existedUser) {
-      throw new BadRequestException('Пользователь с данным идентификатором не зарегистрирован')
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Пользователь с данным идентификатором не зарегистрирован',
+      }, HttpStatus.BAD_REQUEST);
     };
+    
+   return existedUser;
   };
-
+};
       
     // const findCreatedPoint = await this.userEvaluativeRepository.findBy({
     //   user: { id },
@@ -97,4 +133,3 @@ export class UserService {
   // remove(id: number) {
   //   return `This action removes a #${id} user`;
   // }
-}

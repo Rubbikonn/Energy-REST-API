@@ -10,15 +10,15 @@ import {
 @Entity()
 export class UserHealthVision {
     @PrimaryGeneratedColumn({ name: 'vision_item_id' })
-    id: number;
+    vision_id: number;
 
     @Column({ name: 'vision_item_title' })
-    title: string;
+    vision_title: string;
 
     @Column({ name: 'vision_item_value' })
-    value: string;
+    vision_value: string;
 
     @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({ name: 'user_id'})
-    user: User
+    user_id: User
 }

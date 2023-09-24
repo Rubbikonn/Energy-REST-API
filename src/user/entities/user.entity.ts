@@ -29,7 +29,7 @@ export class User {
     })
     userPersonalStrength: UserPersonalStrength[];
 
-    @OneToMany(() => UserHealthVision, (userHealthVision) => userHealthVision.user, {
+    @OneToMany(() => UserHealthVision, (userHealthVision) => userHealthVision.user_id, {
         onDelete: 'CASCADE'
     })
     userHealthVision: UserHealthVision[];
