@@ -93,6 +93,39 @@ export class UserService {
     return await this.userHealthVisionRepository.save(newVision);
 };
 
+  async getAllEvaluativePoints (id: number) {
+
+    await this.checkExistedUser(id);
+
+    return await this.userEvaluativeRepository.find({
+      where: {
+        user_id: { id }
+      }
+    });
+  };
+
+  async getAllPersonalStrength (id: number) {
+
+    await this.checkExistedUser(id);
+
+    return await this.userPersonalStrengthRepository.find({
+      where: {
+        user_id: { id }
+      }
+    });
+  };
+
+  async getAllHealthVision (id: number) {
+
+    await this.checkExistedUser(id);
+
+    return await this.userHealthVisionRepository.find({
+      where: {
+        user_id: { id }
+      }
+    });
+  };
+  
   async checkExistedUser( userId: number ) {
     const existedUser = await this.userRepository.findOne({
       where: {

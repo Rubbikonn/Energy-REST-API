@@ -21,10 +21,16 @@ export class UserController {
 
   @Post('/create-new-evaluative-point/:id')
   @UsePipes(new ValidationPipe())
-    createEvaluativePoint(@Body() userEvaluativePointsDto: UserEvaluativePointsDto, 
-    @Param('id', ParseIntPipe) id: number) {
+  createEvaluativePoint(@Body() userEvaluativePointsDto: UserEvaluativePointsDto, 
+  @Param('id', ParseIntPipe) id: number) {
 
     return this.userService.createNewEvaluativePoint(userEvaluativePointsDto, id)
+  };
+
+  @Get('/get-all-existed-evaluative-points/:id')
+  getAllEvaluativePoints(@Param('id', ParseIntPipe) id: number) {
+
+    return this.userService.getAllEvaluativePoints(id);
   };
 
   @Post('/create-new-personal-strength/:id')
@@ -34,11 +40,23 @@ export class UserController {
     return this.userService.createNewPersonalStrength(userPersonalStrength, id)
   };
 
+  @Get('/get-all-personal-strength/:id')
+  getAllPersonalStrength(@Param('id', ParseIntPipe) id: number) {
+
+    return this.userService.getAllPersonalStrength(id);
+  };
+
   @Post('/create-new-health-vision/:id')
     createHealthVision(@Body() userHealthVision: UserHealthVisionDto,
     @Param('id', ParseIntPipe) id: number) {
       
     return this.userService.createHealthVision(userHealthVision, id)
+  };
+
+  @Get('/get-all-health-vision/:id')
+  getAllHealthVision(@Param('id', ParseIntPipe) id: number) {
+
+    return this.userService.getAllHealthVision(id);
   };
 
 
