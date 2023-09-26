@@ -33,4 +33,4 @@ export class User {
         onDelete: 'CASCADE'
     })
     userHealthVision: UserHealthVision[];
-}
+};
