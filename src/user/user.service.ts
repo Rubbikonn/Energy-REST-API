@@ -1,4 +1,9 @@
-import { Injectable, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
+import { 
+  Injectable, 
+  BadRequestException, 
+  HttpException, 
+  HttpStatus 
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
 import { UserEvaluativePointsDto } from './dto/user-evaluative-points.dto';
@@ -17,14 +22,14 @@ export class UserService {
     @InjectRepository(UserHealthVision) private readonly userHealthVisionRepository: Repository<UserHealthVision>,
     @InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async createNewEvaluativePoint(userEvaluativePointsDto: UserEvaluativePointsDto, 
+  async createNewEvaluativePoint(userEvaluativePoints: UserEvaluativePointsDto, 
   id: number) {
 
     await this.checkExistedUser(id);
 
     const existedPoint = await this.userEvaluativeRepository.findOneBy({
       user_id: { id },
-      point_title: userEvaluativePointsDto.point_title
+      point_title: userEvaluativePoints.point_title
     });
 
     if (existedPoint) {
@@ -32,12 +37,12 @@ export class UserService {
     };
 
       const newPoint = {
-        point_id: userEvaluativePointsDto.point_id,
+        point_id: userEvaluativePoints.point_id,
         user_id: {
           id
         },
-        point_title: userEvaluativePointsDto.point_title,
-        point_value: userEvaluativePointsDto.point_value
+        point_title: userEvaluativePoints.point_title,
+        point_value: userEvaluativePoints.point_value
       }
 
       return await this.userEvaluativeRepository.save(newPoint);

@@ -8,7 +8,12 @@ import { User } from './entities/user.entity';
 import { UserHealthVision } from './entities/user-health-vision.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserEvaluativePoints, UserPersonalStrength, UserHealthVision])],
+  imports: [TypeOrmModule.forFeature([
+    User, 
+    UserEvaluativePoints, 
+    UserPersonalStrength, 
+    UserHealthVision])
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService]

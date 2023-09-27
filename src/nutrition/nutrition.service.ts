@@ -1,26 +1,88 @@
-import { Injectable } from '@nestjs/common';
-import { CreateNutritionDto } from './dto/create-nutrition.dto';
-import { UpdateNutritionDto } from './dto/update-nutrition.dto';
+import { 
+  BadRequestException, 
+  Injectable 
+} from '@nestjs/common';
+import { CreateFoodCategoryDto } from './dto/create-food-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateFoodCategory } from './entities/create-food-category.entity';
+import { Repository } from 'typeorm';
+import { FoodItemDto } from './dto/food-item.dto';
+import { FoodItem } from './entities/food-item.entity';
 
 @Injectable()
 export class NutritionService {
-  create(createNutritionDto: CreateNutritionDto) {
-    return 'This action adds a new nutrition';
-  }
+  constructor(
+  @InjectRepository(CreateFoodCategory) private readonly createFoodCategoryRepository: Repository<CreateFoodCategory>,
+  @InjectRepository(FoodItem) private readonly foodItemRepository: Repository<FoodItem>) {}
 
-  findAll() {
-    return `This action returns all nutrition`;
-  }
+  async createFoodCategory(createFoodCategory: CreateFoodCategoryDto) {
 
-  findOne(id: number) {
-    return `This action returns a #${id} nutrition`;
-  }
+    const existedCategory = await this.createFoodCategoryRepository.findOne({
+      where: {
+        food_category_title: createFoodCategory.food_category_title 
+      }
+    });
 
-  update(id: number, updateNutritionDto: UpdateNutritionDto) {
-    return `This action updates a #${id} nutrition`;
-  }
+    if (existedCategory) {
+      throw new BadRequestException('Данная категория уже существует')
+    };
 
-  remove(id: number) {
-    return `This action removes a #${id} nutrition`;
-  }
-}
+    const newCategory = {
+      food_category_id: createFoodCategory.food_category_id,
+      food_category_title: createFoodCategory.food_category_title
+    };
+
+    return await this.createFoodCategoryRepository.save(newCategory);
+  };
+
+  async getAllFoodCategories() {
+    return await this.createFoodCategoryRepository.find();
+  };
+
+  async createFoodItem(foodItem: FoodItemDto) {
+
+    const existedFoodItem = await this.foodItemRepository.findOne({
+      where: {
+        food_item_name: foodItem.food_item_name
+      }
+    });
+
+    if (existedFoodItem) {
+      throw new BadRequestException('Данный продукт питания уже существует в базе данных')
+    };
+
+    const newFoodItem = {
+      food_item_id: foodItem.food_item_id,
+      food_item_name: foodItem.food_item_name,
+      kCal_quantity: foodItem.kCal_quantity,
+      fat_quantity: foodItem.fat_quantity,
+      protein_quantity: foodItem.protein_quantity,
+      carbohyd_quantity: foodItem.carbohyd_quantity
+    };
+
+    return await this.foodItemRepository.save(newFoodItem);
+  };
+
+  async getAllFoodItem() {
+    return await this.foodItemRepository.find();
+  };
+};
+
+
+
+
+
+
+
+
+  // findAll() {
+  //   return `This action returns all nutrition`;
+  // }
+
+  // findOne(id: number) {
+  //   return `This action returns a #${id} nutrition`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} nutrition`;
+  // }
