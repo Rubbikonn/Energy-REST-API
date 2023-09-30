@@ -3,12 +3,12 @@ import { NutritionService } from './nutrition.service';
 import { NutritionController } from './nutrition.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateFoodCategory } from './entities/create-food-category.entity';
-import { FoodItem } from './entities/food-item.entity';
+import { NewFoodItem } from './entities/new-food-item.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
     CreateFoodCategory,
-    FoodItem
+    NewFoodItem
   ])],
   controllers: [NutritionController],
   providers: [NutritionService],

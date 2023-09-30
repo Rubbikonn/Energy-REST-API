@@ -18,8 +18,8 @@ import {
   ApiResponse, 
   ApiTags 
 } from '@nestjs/swagger';
-import { FoodItem } from './entities/food-item.entity';
-import { FoodItemDto } from './dto/food-item.dto';
+import { NewFoodItem } from './entities/new-food-item.entity';
+import { NewFoodItemDto } from './dto/new-food-item.dto';
 
 @ApiTags('Создание и получение сущностей, относящихся к питанию пользователей приложения')
 @Controller('nutrition')
@@ -44,16 +44,18 @@ export class NutritionController {
   };
 
   @ApiOperation({summary: 'Создание нового продукта питания'})
-  @ApiResponse({status: 201, type: FoodItem})
-  @Post('/create-food-item')
+  @ApiResponse({status: 201, type: NewFoodItem})
+  @Post('/create-food-item/:id/:food_category_id')
   @UsePipes(new ValidationPipe())
-  createFoodItem(@Body() foodItem: FoodItemDto) {
+  createFoodItem(@Body() newFoodItem: NewFoodItemDto,
+  @Param('id', ParseIntPipe) id: number,
+  @Param('food_category_id', ParseIntPipe) food_category_id: number) {
 
-    return this.nutritionService.createFoodItem(foodItem);
+    return this.nutritionService.createFoodItem(newFoodItem, id, food_category_id);
   };
 
   @ApiOperation({summary: 'Получение всех существующих продуктов питания с базы данных'})
-  @ApiResponse({status: 200, type: [FoodItem]})
+  @ApiResponse({status: 200, type: [NewFoodItem]})
   @Get('/get-all-existed-food-item') 
   getAllFoodItem () {
 

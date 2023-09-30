@@ -7,6 +7,7 @@ import {
 import { UserEvaluativePoints } from "./user-evaluative-points.entity";
 import { UserPersonalStrength } from "./user-personal-strength.entity";
 import { UserHealthVision } from "./user-health-vision.entity";
+import { NewFoodItem } from "src/nutrition/entities/new-food-item.entity";
 
 @Entity()
 export class User {
@@ -33,4 +34,9 @@ export class User {
         onDelete: 'CASCADE'
     })
     userHealthVision: UserHealthVision[];
+
+    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.user_id, {
+        onDelete: 'CASCADE'
+    })
+    newFoodItem: NewFoodItem[];
 };

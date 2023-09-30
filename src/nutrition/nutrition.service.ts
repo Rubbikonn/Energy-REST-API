@@ -6,14 +6,14 @@ import { CreateFoodCategoryDto } from './dto/create-food-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFoodCategory } from './entities/create-food-category.entity';
 import { Repository } from 'typeorm';
-import { FoodItemDto } from './dto/food-item.dto';
-import { FoodItem } from './entities/food-item.entity';
+import { NewFoodItemDto } from './dto/new-food-item.dto';
+import { NewFoodItem } from './entities/new-food-item.entity';
 
 @Injectable()
 export class NutritionService {
   constructor(
   @InjectRepository(CreateFoodCategory) private readonly createFoodCategoryRepository: Repository<CreateFoodCategory>,
-  @InjectRepository(FoodItem) private readonly foodItemRepository: Repository<FoodItem>) {}
+  @InjectRepository(NewFoodItem) private readonly foodItemRepository: Repository<NewFoodItem>) {}
 
   async createFoodCategory(createFoodCategory: CreateFoodCategoryDto) {
 
@@ -39,11 +39,11 @@ export class NutritionService {
     return await this.createFoodCategoryRepository.find();
   };
 
-  async createFoodItem(foodItem: FoodItemDto) {
+  async createFoodItem(newFoodItem: NewFoodItemDto, id: number, food_category_id: number) {
 
     const existedFoodItem = await this.foodItemRepository.findOne({
       where: {
-        food_item_name: foodItem.food_item_name
+        food_item_name: newFoodItem.food_item_name
       }
     });
 
@@ -51,16 +51,25 @@ export class NutritionService {
       throw new BadRequestException('Данный продукт питания уже существует в базе данных')
     };
 
-    const newFoodItem = {
-      food_item_id: foodItem.food_item_id,
-      food_item_name: foodItem.food_item_name,
-      kCal_quantity: foodItem.kCal_quantity,
-      fat_quantity: foodItem.fat_quantity,
-      protein_quantity: foodItem.protein_quantity,
-      carbohyd_quantity: foodItem.carbohyd_quantity
+    const newItem = {
+      food_item_id: newFoodItem.food_item_id,
+      user_id: {
+        id
+      },
+      food_category_id: {
+        food_category_id
+      },
+      food_item_name: newFoodItem.food_item_name,
+      kCal_quantity: newFoodItem.kCal_quantity,
+      fat_quantity: newFoodItem.fat_quantity,
+      protein_quantity: newFoodItem.protein_quantity,
+      carbohyd_quantity: newFoodItem.carbohyd_quantity,
+      unit: newFoodItem.unit,
+      portion_size: newFoodItem.portion_size,
+      manufacturer: newFoodItem.manufacturer
     };
 
-    return await this.foodItemRepository.save(newFoodItem);
+    return await this.foodItemRepository.save(newItem);
   };
 
   async getAllFoodItem() {

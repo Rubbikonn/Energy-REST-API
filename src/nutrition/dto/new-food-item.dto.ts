@@ -5,8 +5,8 @@ import {
     IsNumber
 } from 'class-validator';
 
-export class FoodItemDto {
-    @ApiProperty({example: 1, description: "Уникальный идентификатор"})
+export class NewFoodItemDto {
+    @ApiProperty({example: 1, description: "Уникальный идентификатор продукта"})
     @IsNumber()
     @IsNotEmpty()
     food_item_id: number;
@@ -35,4 +35,19 @@ export class FoodItemDto {
     @IsNumber()
     @IsNotEmpty()
     carbohyd_quantity: number;
+
+    @ApiProperty({example: 2, description: "Количество порций"})
+    @IsNumber()
+    @IsNotEmpty()
+    unit: number;
+
+    @ApiProperty({example: 100, description: "Вес порции в граммах"})
+    @IsNumber()
+    @IsNotEmpty()
+    portion_size: number;
+
+    @ApiProperty({example: "ООО 'Весёлый молочник'", description: "Производитель продукта"})
+    @IsNotEmpty({message: 'Название производителя продукта не может быть пустым'})
+    @IsString()
+    manufacturer: string;
 };
