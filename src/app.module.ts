@@ -33,6 +33,6 @@ import { NutritionModule } from './nutrition/nutrition.module';
     NutritionModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

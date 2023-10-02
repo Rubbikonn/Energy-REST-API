@@ -8,18 +8,20 @@ import { CreateFoodCategory } from './entities/create-food-category.entity';
 import { Repository } from 'typeorm';
 import { NewFoodItemDto } from './dto/new-food-item.dto';
 import { NewFoodItem } from './entities/new-food-item.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class NutritionService {
   constructor(
   @InjectRepository(CreateFoodCategory) private readonly createFoodCategoryRepository: Repository<CreateFoodCategory>,
-  @InjectRepository(NewFoodItem) private readonly foodItemRepository: Repository<NewFoodItem>) {}
+  @InjectRepository(NewFoodItem) private readonly foodItemRepository: Repository<NewFoodItem>,
+  private userService: UserService) {}
 
   async createFoodCategory(createFoodCategory: CreateFoodCategoryDto) {
 
     const existedCategory = await this.createFoodCategoryRepository.findOne({
       where: {
-        food_category_title: createFoodCategory.food_category_title 
+        foodCategoryTitle: createFoodCategory.foodCategoryTitle 
       }
     });
 
@@ -28,8 +30,8 @@ export class NutritionService {
     };
 
     const newCategory = {
-      food_category_id: createFoodCategory.food_category_id,
-      food_category_title: createFoodCategory.food_category_title
+      foodCategoryId: createFoodCategory.foodCategoryId,
+      foodCategoryTitle: createFoodCategory.foodCategoryTitle
     };
 
     return await this.createFoodCategoryRepository.save(newCategory);
@@ -39,11 +41,13 @@ export class NutritionService {
     return await this.createFoodCategoryRepository.find();
   };
 
-  async createFoodItem(newFoodItem: NewFoodItemDto, id: number, food_category_id: number) {
+  async createFoodItem(newFoodItem: NewFoodItemDto, id: number, foodCategoryId: number) {
+
+    await this.userService.checkExistedUser(id)
 
     const existedFoodItem = await this.foodItemRepository.findOne({
       where: {
-        food_item_name: newFoodItem.food_item_name
+        foodItemName: newFoodItem.foodItemName
       }
     });
 
@@ -52,20 +56,20 @@ export class NutritionService {
     };
 
     const newItem = {
-      food_item_id: newFoodItem.food_item_id,
-      user_id: {
+      foodItemId: newFoodItem.foodItemId,
+      userId: {
         id
       },
-      food_category_id: {
-        food_category_id
+      foodCategoryId: {
+        foodCategoryId
       },
-      food_item_name: newFoodItem.food_item_name,
-      kCal_quantity: newFoodItem.kCal_quantity,
-      fat_quantity: newFoodItem.fat_quantity,
-      protein_quantity: newFoodItem.protein_quantity,
-      carbohyd_quantity: newFoodItem.carbohyd_quantity,
+      foodItemName: newFoodItem.foodItemName,
+      kCalQuantity: newFoodItem.kCalQuantity,
+      fatQuantity: newFoodItem.fatQuantity,
+      proteinQuantity: newFoodItem.proteinQuantity,
+      carbohydQuantity: newFoodItem.carbohydQuantity,
       unit: newFoodItem.unit,
-      portion_size: newFoodItem.portion_size,
+      portionSize: newFoodItem.portionSize,
       manufacturer: newFoodItem.manufacturer
     };
 

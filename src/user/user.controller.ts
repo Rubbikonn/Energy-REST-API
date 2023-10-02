@@ -30,10 +30,10 @@ export class UserController {
   @ApiResponse({status: 201, type: UserEvaluativePoints})
   @Post('/create-new-evaluative-point/:id')
   @UsePipes(new ValidationPipe())
-  createEvaluativePoint(@Body() userEvaluativePointsDto: UserEvaluativePointsDto, 
+  createEvaluativePoint(@Body() userEvaluativePoints: UserEvaluativePointsDto, 
   @Param('id', ParseIntPipe) id: number) {
 
-    return this.userService.createNewEvaluativePoint(userEvaluativePointsDto, id)
+    return this.userService.createNewEvaluativePoint(userEvaluativePoints, id)
   };
 
   @ApiOperation({summary: 'Получение оценочных показателей здоровья конкретного пользователя'})

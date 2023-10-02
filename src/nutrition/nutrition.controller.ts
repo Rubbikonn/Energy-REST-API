@@ -45,13 +45,13 @@ export class NutritionController {
 
   @ApiOperation({summary: 'Создание нового продукта питания'})
   @ApiResponse({status: 201, type: NewFoodItem})
-  @Post('/create-food-item/:id/:food_category_id')
+  @Post('/create-food-item/:id/:foodCategoryId')
   @UsePipes(new ValidationPipe())
   createFoodItem(@Body() newFoodItem: NewFoodItemDto,
   @Param('id', ParseIntPipe) id: number,
-  @Param('food_category_id', ParseIntPipe) food_category_id: number) {
+  @Param('foodCategoryId', ParseIntPipe) foodCategoryId: number) {
 
-    return this.nutritionService.createFoodItem(newFoodItem, id, food_category_id);
+    return this.nutritionService.createFoodItem(newFoodItem, id, foodCategoryId);
   };
 
   @ApiOperation({summary: 'Получение всех существующих продуктов питания с базы данных'})

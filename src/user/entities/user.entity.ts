@@ -20,22 +20,22 @@ export class User {
     @Column({ name: 'user_password' })
     password: string;
 
-    @OneToMany(() => UserEvaluativePoints, (userEvaluativePoints) => userEvaluativePoints.user_id, {
+    @OneToMany(() => UserEvaluativePoints, (userEvaluativePoints) => userEvaluativePoints.userId, {
         onDelete: 'CASCADE'
     })
     userEvaluativePoints: UserEvaluativePoints[];
 
-    @OneToMany(() => UserPersonalStrength, (userPeronalStrength) => userPeronalStrength.user_id, {
+    @OneToMany(() => UserPersonalStrength, (userPeronalStrength) => userPeronalStrength.userId, {
        onDelete: 'CASCADE'
     })
     userPersonalStrength: UserPersonalStrength[];
 
-    @OneToMany(() => UserHealthVision, (userHealthVision) => userHealthVision.user_id, {
+    @OneToMany(() => UserHealthVision, (userHealthVision) => userHealthVision.userId, {
         onDelete: 'CASCADE'
     })
     userHealthVision: UserHealthVision[];
 
-    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.user_id, {
+    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.userId, {
         onDelete: 'CASCADE'
     })
     newFoodItem: NewFoodItem[];

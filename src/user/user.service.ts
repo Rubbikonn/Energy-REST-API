@@ -2,7 +2,7 @@ import {
   Injectable, 
   BadRequestException, 
   HttpException, 
-  HttpStatus 
+  HttpStatus
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
@@ -28,8 +28,8 @@ export class UserService {
     await this.checkExistedUser(id);
 
     const existedPoint = await this.userEvaluativeRepository.findOneBy({
-      user_id: { id },
-      point_title: userEvaluativePoints.point_title
+      userId: { id },
+      pointTitle: userEvaluativePoints.pointTitle
     });
 
     if (existedPoint) {
@@ -37,12 +37,12 @@ export class UserService {
     };
 
       const newPoint = {
-        point_id: userEvaluativePoints.point_id,
-        user_id: {
+        pointId: userEvaluativePoints.pointId,
+        userId: {
           id
         },
-        point_title: userEvaluativePoints.point_title,
-        point_value: userEvaluativePoints.point_value
+        pointTitle: userEvaluativePoints.pointTitle,
+        pointValue: userEvaluativePoints.pointValue
       }
 
       return await this.userEvaluativeRepository.save(newPoint);
@@ -53,8 +53,8 @@ export class UserService {
     await this.checkExistedUser(id);
     
     const existedStrength = await this.userPersonalStrengthRepository.findOneBy({
-      user_id: { id },
-      strength_title: userPersonalStrength.strength_title
+      userId: { id },
+      strengthTitle: userPersonalStrength.strengthTitle
     })
 
     if (existedStrength) {
@@ -62,12 +62,12 @@ export class UserService {
     };
 
     const newStrength = {
-      strength_id: userPersonalStrength.strength_id,
-      user_id: {
+      strengthId: userPersonalStrength.strengthId,
+      userId: {
         id
       },
-      strength_title: userPersonalStrength.strength_title,
-      strength_value: userPersonalStrength.strength_value
+      strengthTitle: userPersonalStrength.strengthTitle,
+      strengthValue: userPersonalStrength.strengthValue
     };
 
     return await this.userPersonalStrengthRepository.save(newStrength);
@@ -78,8 +78,8 @@ export class UserService {
     await this.checkExistedUser(id);
     
     const existedVision = await this.userHealthVisionRepository.findOneBy({
-      user_id: { id },
-      vision_title: userHealthVision.vision_title
+      userId: { id },
+      visionTitle: userHealthVision.visionTitle
     })
 
     if (existedVision) {
@@ -87,12 +87,12 @@ export class UserService {
     };
 
     const newVision = {
-      vision_id: userHealthVision.vision_id,
-      user_id: {
+      visionId: userHealthVision.visionId,
+      userId: {
         id
       },
-      vision_title: userHealthVision.vision_title,
-      vision_value: userHealthVision.vision_value
+      visionTitle: userHealthVision.visionTitle,
+      visionValue: userHealthVision.visionValue
     };
 
     return await this.userHealthVisionRepository.save(newVision);
@@ -104,7 +104,7 @@ export class UserService {
 
     return await this.userEvaluativeRepository.find({
       where: {
-        user_id: { id }
+        userId: { id }
       }
     });
   };
@@ -115,7 +115,7 @@ export class UserService {
 
     return await this.userPersonalStrengthRepository.find({
       where: {
-        user_id: { id }
+        userId: { id }
       }
     });
   };
@@ -126,7 +126,7 @@ export class UserService {
 
     return await this.userHealthVisionRepository.find({
       where: {
-        user_id: { id }
+        userId: { id }
       }
     });
   };

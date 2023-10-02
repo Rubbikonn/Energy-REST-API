@@ -12,17 +12,17 @@ import { ApiProperty } from "@nestjs/swagger";
 export class UserEvaluativePoints {
     @ApiProperty({example: 1, description: "Уникальный идентификатор"})
     @PrimaryGeneratedColumn({ name: 'point_id' })
-    point_id: number;
+    pointId: number;
 
     @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({ name: 'user_id'})
-    user_id: User
+    userId: User
 
     @ApiProperty({example: 'Systolic blood pressure', description: "Название оценочного показателя"})
     @Column({ name: 'point_title' })
-    point_title: string;
+    pointTitle: string;
 
     @ApiProperty({example: 120, description: "Значение оценочного показателя"})
     @Column({ name: 'point_value' })
-    point_value: number;
+    pointValue: number;
 };

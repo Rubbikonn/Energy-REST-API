@@ -12,7 +12,7 @@ import { UserHealthVision } from './entities/user-health-vision.entity';
     User, 
     UserEvaluativePoints, 
     UserPersonalStrength, 
-    UserHealthVision])
+    UserHealthVision]),
   ],
   controllers: [UserController],
   providers: [UserService],

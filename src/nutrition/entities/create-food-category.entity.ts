@@ -11,13 +11,13 @@ import { NewFoodItem } from "./new-food-item.entity";
 export class CreateFoodCategory {
     @ApiProperty({example: 1, description: "Уникальный идентификатор"})
     @PrimaryGeneratedColumn({ name: 'food_category_id' })
-    food_category_id: number;
+    foodCategoryId: number;
 
     @ApiProperty({example: 'Feel best', description: "Уникальная категория для каждого продукта питания"})
     @Column({ name: 'food_category_title' })
-    food_category_title: string; 
+    foodCategoryTitle: string; 
 
-    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.food_item_id, {
+    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.foodItemId, {
         onDelete: 'CASCADE'
     })
     newFoodItem: NewFoodItem[];

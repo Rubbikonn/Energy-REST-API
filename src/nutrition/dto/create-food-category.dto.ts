@@ -9,10 +9,10 @@ export class CreateFoodCategoryDto {
     @ApiProperty({example: 1, description: "Уникальный идентификатор"})
     @IsNumber()
     @IsNotEmpty()
-    food_category_id: number;
+    foodCategoryId: number;
 
     @ApiProperty({example: 'Feel best', description: "Название категории для продукта питания отнесенное к конкретному пользователю"})
     @IsNotEmpty({message: 'Название категории не может быть пустым'})
     @IsString()
-    food_category_title: string; 
+    foodCategoryTitle: string; 
 };
