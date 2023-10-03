@@ -17,6 +17,9 @@ export class User {
     @Column({ name: 'user_login' })
     login: string;
 
+    @Column({ name: 'user_role' })
+    role: string;
+
     @Column({ name: 'user_password' })
     password: string;
 

@@ -8,7 +8,8 @@ import {
   Delete, 
   UsePipes, 
   ValidationPipe, 
-  ParseIntPipe
+  ParseIntPipe,
+  UseGuards
 } from '@nestjs/common';
 import { NutritionService } from './nutrition.service';
 import { CreateFoodCategory } from './entities/create-food-category.entity';
@@ -20,8 +21,13 @@ import {
 } from '@nestjs/swagger';
 import { NewFoodItem } from './entities/new-food-item.entity';
 import { NewFoodItemDto } from './dto/new-food-item.dto';
+import { AuthenticationGuard } from 'src/auth/authentication.guard';
+import { AuthorizationGuard } from 'src/auth/authorization.guard';
+import { Role } from 'src/user/roles.decorator';
 
 @ApiTags('Создание и получение сущностей, относящихся к питанию пользователей приложения')
+@Role('user')
+@UseGuards(AuthenticationGuard, AuthorizationGuard)
 @Controller('nutrition')
 export class NutritionController {
   constructor(private readonly nutritionService: NutritionService) {}

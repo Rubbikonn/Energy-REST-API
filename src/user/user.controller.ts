@@ -6,7 +6,8 @@ import {
   Param, 
   UsePipes, 
   ValidationPipe,
-  ParseIntPipe
+  ParseIntPipe,
+  UseGuards
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEvaluativePointsDto } from './dto/user-evaluative-points.dto';
@@ -20,8 +21,13 @@ import {
 import { UserEvaluativePoints } from './entities/user-evaluative-points.entity';
 import { UserHealthVision } from './entities/user-health-vision.entity';
 import { UserPersonalStrength } from './entities/user-personal-strength.entity';
+import { AuthenticationGuard } from 'src/auth/authentication.guard';
+import { Role } from './roles.decorator';
+import { AuthorizationGuard } from 'src/auth/authorization.guard';
 
 @ApiTags('Создание и получение персональных данных пользователя')
+@Role('user')
+@UseGuards(AuthenticationGuard, AuthorizationGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
