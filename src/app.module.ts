@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { NutritionModule } from './nutrition/nutrition.module';
+import { LogsModule } from './logs/logs.module';
 
 @Module({
   imports: [ 
@@ -30,7 +31,8 @@ import { NutritionModule } from './nutrition/nutrition.module';
       inject: [ConfigService]
     }),
     AuthModule,
-    NutritionModule
+    NutritionModule,
+    LogsModule
   ],
   controllers: [AppController],
   providers: [AppService]
