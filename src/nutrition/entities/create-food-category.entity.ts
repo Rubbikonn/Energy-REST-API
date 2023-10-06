@@ -2,10 +2,12 @@ import { ApiProperty } from "@nestjs/swagger";
 import { 
     Column,
     Entity, 
+    ManyToOne, 
     OneToMany, 
     PrimaryGeneratedColumn 
 } from "typeorm";
 import { NewFoodItem } from "./new-food-item.entity";
+import { UserFuelOrganaizer } from "src/organaizer/entities/user-fuel-orzanaizer.entity";
 
 @Entity()
 export class CreateFoodCategory {
@@ -21,5 +23,7 @@ export class CreateFoodCategory {
         onDelete: 'CASCADE'
     })
     newFoodItem: NewFoodItem[];
- 
+
+    // @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
+    // userFuelOrganaizer: UserFuelOrganaizer[];
 };

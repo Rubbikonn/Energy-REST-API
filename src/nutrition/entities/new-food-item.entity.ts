@@ -8,10 +8,12 @@ import {
 } from 'typeorm';
 import { CreateFoodCategory } from './create-food-category.entity';
 import { User } from 'src/user/entities/user.entity';
+import { UserFuelOrganaizer } from 'src/organaizer/entities/user-fuel-orzanaizer.entity';
 
 @Entity()
 export class NewFoodItem {
     @ApiProperty({example: 1, description: "Уникальный идентификатор"})
+    @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
     @PrimaryGeneratedColumn({ name: 'food_category_id' })
     foodItemId: number;
 
@@ -56,4 +58,8 @@ export class NewFoodItem {
     @ApiProperty({example: "ООО 'Весёлый молочник'", description: "Производитель продукта"})
     @Column({ name: 'manufacturer' })
     manufacturer: string;
+
+    @ApiProperty({type: () => UserFuelOrganaizer, example: 'Завтрак', description: "Время приёма пищи"})
+    @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
+    userFuelOrganaizer?: UserFuelOrganaizer[];
 };
