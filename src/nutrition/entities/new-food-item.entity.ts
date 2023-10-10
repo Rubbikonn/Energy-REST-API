@@ -4,6 +4,7 @@ import {
     Entity, 
     JoinColumn, 
     ManyToOne, 
+    OneToMany, 
     PrimaryGeneratedColumn 
 } from 'typeorm';
 import { CreateFoodCategory } from './create-food-category.entity';
@@ -13,9 +14,11 @@ import { UserFuelOrganaizer } from 'src/organaizer/entities/user-fuel-orzanaizer
 @Entity()
 export class NewFoodItem {
     @ApiProperty({example: 1, description: "Уникальный идентификатор"})
-    @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
-    @PrimaryGeneratedColumn({ name: 'food_category_id' })
+    @PrimaryGeneratedColumn({ name: 'food_item_id' })
     foodItemId: number;
+
+    // @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.foodItemId)
+
 
     @ApiProperty({type: () => User, example: 1, description: "Уникальный идентификатор пользователя"})
     @ManyToOne(() => User, (user) => user.id)
@@ -60,6 +63,6 @@ export class NewFoodItem {
     manufacturer: string;
 
     @ApiProperty({type: () => UserFuelOrganaizer, example: 'Завтрак', description: "Время приёма пищи"})
-    @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
+    @OneToMany(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.foodItemId)
     userFuelOrganaizer?: UserFuelOrganaizer[];
 };

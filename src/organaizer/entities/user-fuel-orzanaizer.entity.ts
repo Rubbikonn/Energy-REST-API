@@ -25,7 +25,7 @@ export class UserFuelOrganaizer {
     @Column({ name: 'meal_time' })
     mealTime: string;
 
-    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.foodItemId, {
+    @ManyToOne(() => NewFoodItem, (newFoodItem) => newFoodItem.foodItemId, {
         onDelete: 'CASCADE'
     })
     @JoinColumn({ name: 'food_item'})
@@ -43,7 +43,7 @@ export class UserFuelOrganaizer {
     @Column({ name: 'serving' })
     serving: string;
 
-    // @OneToMany(() => CreateFoodCategory, (createFoodCategory) => createFoodCategory.foodCategoryId)
-    // @JoinColumn({ name: 'food_category_id'})
-    // foodCategory: CreateFoodCategory;
+    @OneToMany(() => CreateFoodCategory, (createFoodCategory) => createFoodCategory.foodCategoryId)
+    @JoinColumn({ name: 'food_category_id'})
+    foodCategoryId: CreateFoodCategory;
 };

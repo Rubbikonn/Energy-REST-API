@@ -17,7 +17,7 @@ export class OrganaizerService {
   private userService: UserService) {}
 
   async createFuelLog(userFuelOrganaizer: UserFuelOrganaizerDto, id: number, foodItemId: number,
-    date: Date) {
+    date: string) {
 
     await this.userService.checkExistedUser(id);
 
@@ -31,6 +31,8 @@ export class OrganaizerService {
       throw new BadRequestException('Данного идентификатора продукта питания не существует');
     };
 
+    const correctDate = new Date(Date.parse(date));
+
     const newFuelLog = {
       fuelLogId: userFuelOrganaizer.fuelLogId,
       userId: {
@@ -41,7 +43,7 @@ export class OrganaizerService {
         foodItemId
       },
       eatenStatus: userFuelOrganaizer.eatenStatus,
-      date: date.toISOString(),
+      date: correctDate.toISOString(),
       serving: userFuelOrganaizer.serving
     };
 

@@ -34,7 +34,7 @@ export class OrganaizerController {
   createFuelLog(@Body() userFuelOrganaizer: UserFuelOrganaizerDto,
     @Param('id', ParseIntPipe) id: number,
     @Param('foodItemId', ParseIntPipe) foodItem: number,
-    @Param('date', ParseIntPipe) date: Date) {
+    @Param('date') date: string) {
 
       return this.organaizerService.createFuelLog(userFuelOrganaizer, id, foodItem, date);
   };

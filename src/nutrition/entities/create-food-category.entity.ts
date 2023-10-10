@@ -19,11 +19,11 @@ export class CreateFoodCategory {
     @Column({ name: 'food_category_title' })
     foodCategoryTitle: string; 
 
-    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.foodItemId, {
+    @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.foodCategoryId, {
         onDelete: 'CASCADE'
     })
-    newFoodItem: NewFoodItem[];
+    FoodItem: NewFoodItem[];
 
-    // @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
-    // userFuelOrganaizer: UserFuelOrganaizer[];
+    @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.foodCategoryId)
+    userFuelOrganaizer: UserFuelOrganaizer[];
 };
