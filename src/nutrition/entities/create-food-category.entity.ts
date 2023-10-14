@@ -22,8 +22,8 @@ export class CreateFoodCategory {
     @OneToMany(() => NewFoodItem, (newFoodItem) => newFoodItem.foodCategoryId, {
         onDelete: 'CASCADE'
     })
-    FoodItem: NewFoodItem[];
+    foodItem: NewFoodItem[];
 
-    @ManyToOne(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.foodCategoryId)
+    @OneToMany(() => UserFuelOrganaizer, (userFuelOrganaizer) => userFuelOrganaizer.fuelLogId)
     userFuelOrganaizer: UserFuelOrganaizer[];
 };

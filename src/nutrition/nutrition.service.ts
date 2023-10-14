@@ -80,22 +80,3 @@ export class NutritionService {
     return await this.foodItemRepository.find();
   };
 };
-
-
-
-
-
-
-
-
-  // findAll() {
-  //   return `This action returns all nutrition`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} nutrition`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} nutrition`;
-  // }

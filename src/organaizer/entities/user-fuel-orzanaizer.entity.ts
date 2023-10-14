@@ -6,8 +6,7 @@ import {
     Column, 
     Entity, 
     JoinColumn, 
-    ManyToOne, 
-    OneToMany, 
+    ManyToOne,
     PrimaryGeneratedColumn 
 } from "typeorm";
 
@@ -32,7 +31,7 @@ export class UserFuelOrganaizer {
     foodItemId: NewFoodItem;
 
     @ApiProperty({example: 'true', description: "Текщий статус (съедено или нет)"})
-    @Column({ name: 'eaten_status' })
+    @Column({ name: 'eaten_status', default: false })
     eatenStatus: boolean;
 
     @ApiProperty({example: '2017-06-01', description: "Установленная дата для этого события"})
@@ -43,7 +42,19 @@ export class UserFuelOrganaizer {
     @Column({ name: 'serving' })
     serving: string;
 
-    @OneToMany(() => CreateFoodCategory, (createFoodCategory) => createFoodCategory.foodCategoryId)
-    @JoinColumn({ name: 'food_category_id'})
+    @ManyToOne(() => CreateFoodCategory, (createFoodCategory) => createFoodCategory.foodCategoryId, { eager: true })
+    @JoinColumn({ name: 'food_category_id' })
     foodCategoryId: CreateFoodCategory;
 };
+
+// @JoinTable({ 
+//     name: 'create_food_category',
+//     joinColumn: { name: 'food_category_id' }
+// })
+
+// @JoinColumn({name: 'food_category_name'})
+
+// {
+//     cascade: true,
+//     eager: true
+// }

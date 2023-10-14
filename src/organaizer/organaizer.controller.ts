@@ -6,7 +6,8 @@ import {
   UseGuards, 
   UsePipes, 
   ValidationPipe, 
-  ParseIntPipe 
+  ParseIntPipe, 
+  Patch
 } from '@nestjs/common';
 import { OrganaizerService } from './organaizer.service';
 import { UserFuelOrganaizerDto } from './dto/user-fuel-organaizer.dto';
@@ -19,6 +20,8 @@ import {
 import { AuthenticationGuard } from 'src/auth/authentication.guard';
 import { AuthorizationGuard } from 'src/auth/authorization.guard';
 import { UserFuelOrganaizer } from './entities/user-fuel-orzanaizer.entity';
+import { UserMoveOrganaizerDto } from './dto/user-move-organaizer.dto';
+import { UserMoveOrganaizer } from './entities/user-move-organaizer.entity';
 
 @ApiTags('Создание сущностей, отвечающих за учёт питания, движения и отдыха пользователя')
 @Role('user')
@@ -37,6 +40,26 @@ export class OrganaizerController {
     @Param('date') date: string) {
 
       return this.organaizerService.createFuelLog(userFuelOrganaizer, id, foodItem, date);
+  };
+
+  @ApiOperation({summary: 'Создание новой записи в журнал двигательной активности'})
+  @ApiResponse({status: 201, type: UserMoveOrganaizer})
+  @Post('/creat-move-log/:id/:date')
+  @UsePipes(new ValidationPipe())
+  createMoveLog(@Body() userMoveOrganaizer: UserMoveOrganaizerDto,
+  @Param('id', ParseIntPipe) id: number,
+  @Param('date') date: string) {
+
+    return this.organaizerService.createMoveLog(userMoveOrganaizer, id, date);
+  };
+
+  @ApiOperation({summary: 'Изменение статуса (сделано/не сделано) в журнале двигательной активности'})
+  @ApiResponse({status: 202, type: UserMoveOrganaizer})
+  @Patch('/update-move-log-completion/:id/:moveLogId')
+  patchMoveLogCompletion(@Param('id', ParseIntPipe) id: number,
+  @Param('moveLogId', ParseIntPipe) moveLogId: number) {
+
+    return this.organaizerService.patchMoveLogCompletion(id, moveLogId);
   };
 
   // @Get()
@@ -58,4 +81,4 @@ export class OrganaizerController {
   // remove(@Param('id') id: string) {
   //   return this.organaizerService.remove(+id);
   // }
-}
+};
